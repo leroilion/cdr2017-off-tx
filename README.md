@@ -1,4 +1,4 @@
-# Arduino project template
+# Remote control for wireless robot
 
 ## Install tools
 
@@ -17,4 +17,4 @@ $ npm install
 
 ## main program
 
-The main program is simply an arduino blink
+Remote control of robot with turbine for off-cup of cdr 2017
