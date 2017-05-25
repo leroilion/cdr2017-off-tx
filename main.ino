@@ -1,6 +1,8 @@
 #include <Arduino.h>
+#include <VirtualWire.h>
 
-#define LED 13
+#define POWER A0
+#define DIRECTION A1
 
 void setup()
 {
@@ -9,14 +11,20 @@ void setup()
     Serial.print(F("VERSION : "));
     Serial.println(F(VERSION));
 
-    /// Init LED
-    pinMode(LED, OUTPUT);
+    pinMode(POWER, INPUT);
+    pinMode(DIRECTION, INPUT);
+
+    vw_setup(2000);
 }
 
 void loop()
 {
-    digitalWrite(LED, HIGH);
-    delay(1000);
-    digitalWrite(LED, LOW);
-    delay(1000);
+    uint16_t power = analogRead(POWER);
+    uint16_t direction = analogRead(DIRECTION);
+    uint32_t powerDirection = power;
+    powerDirection = powerDirection << 16;
+    powerDirection += direction;
+    vw_send((uint8_t *)(&powerDirection), 4);
+    vw_wait_tx();
+    delay(100);
 }
